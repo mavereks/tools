@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blended Learning Training Program - Persona Cards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 10px;
+            font-size: 2.2em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+        
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 30px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        .persona-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .persona-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+        }
+        
+        .card-header {
+            padding: 20px 25px;
+            color: white;
+            position: relative;
+        }
+        
+        .persona-number {
+            font-size: 0.85em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .persona-type {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .persona-name {
+            font-size: 2em;
+            font-weight: 300;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .persona-name .avatar {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+        }
+        
+        /* Color themes for each persona */
+        .persona-1 .card-header { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .persona-2 .card-header { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .persona-3 .card-header { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .persona-4 .card-header { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .persona-5 .card-header { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #333; }
+        .persona-6 .card-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .persona-7 .card-header { background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); color: #333; }
+        
+        .card-body {
+            padding: 25px;
+        }
+        
+        .role-info {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .role-badge {
+            background: #f0f4f8;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            color: #555;
+        }
+        
+        .section {
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #888;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .background-text {
+            color: #444;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+        
+        .list {
+            list-style: none;
+        }
+        
+        .list li {
+            padding: 6px 0 6px 24px;
+            position: relative;
+            color: #444;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .goals-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #43e97b;
+            font-weight: bold;
+        }
+        
+        .pain-list li::before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            color: #f5576c;
+            font-weight: bold;
+        }
+        
+        .quote {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px 20px;
+            margin: 20px 0;
+            font-style: italic;
+            color: #555;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .success-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+        
+        .success-box .section-title {
+            color: #2e7d32;
+        }
+        
+        .success-box p {
+            color: #444;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .meta-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .meta-tag {
+            font-size: 0.75em;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-weight: 500;
+        }
+        
+        .tag-experience { background: #e3f2fd; color: #1565c0; }
+        .tag-time { background: #fff3e0; color: #e65100; }
+        .tag-motivation { background: #f3e5f5; color: #7b1fa2; }
+        
+        .summary-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-top: 40px;
+            max-width: 1600px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        .summary-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .summary-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-size: 0.9em;
+        }
+        
+        .summary-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9em;
+        }
+        
+        .summary-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .summary-table tr:nth-child(even) {
+            background: #fafafa;
+        }
+        
+        .summary-table tr:nth-child(even):hover {
+            background: #f0f4f8;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 20px;
+            }
+            
+            .persona-card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            
+            .persona-card:hover {
+                transform: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .card-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.6em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Blended Learning Training Program</h1>
+    <p class="subtitle">User Persona Cards for Needs Analysis</p>
+    
+    <div class="card-container">
+        
+        <!-- Persona 1 -->
+        <div class="persona-card persona-1">
+            <div class="card-header">
+                <div class="persona-number">Persona 1</div>
+                <div class="persona-type">The COVID Pivot Instructor</div>
+                <div class="persona-name">
+                    <span class="avatar">👩‍🏫</span>
+                    Dana
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="role-info">
+                    <span class="role-badge">Associate Professor of History</span>
+                    <span class="role-badge">12 years at St. Thomas</span>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Background</div>
+                    <p class="background-text">Dana has been teaching face-to-face courses for over a decade and was highly effective in the classroom. When COVID hit, she scrambled to move her courses online with minimal preparation. She made it work, but it was stressful and felt like a compromise. Since returning to campus, she's avoided online teaching entirely.</p>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Goals</div>
+                    <ul class="list goals-list">
+                        <li>Regain confidence in online teaching as a legitimate, quality experience</li>
+                        <li>Learn intentional course design rather than reactive adaptation</li>
+                        <li>Understand what's changed in tools and best practices since 2020</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Pain Points</div>
+                    <ul class="list pain-list">
+                        <li>Associates online teaching with chaos and burnout</li>
+                        <li>Feels behind colleagues who embraced online learning</li>
+                        <li>Worried students will have a lesser experience online</li>
+                        <li>Doesn't know where to start or what she doesn't know</li>
+                    </ul>
+                </div>
+                
+                <div class="quote">
+                    "I survived COVID teaching, but I wouldn't call it good teaching. If I have to do it again, I want to do it right."
+                </div>
+                
+                <div class="success-box">
+                    <div class="section-title">What Success Looks Like</div>
+                    <p>Dana completes the training feeling that online teaching can be as engaging and rigorous as her in-person courses. She has a clear framework and practical tools to design with intention.</p>
+                </div>
+                
+                <div class="meta-tags">
+                    <span class="meta-tag tag-experience">Experience: Moderate (unplanned)</span>
+                    <span class="meta-tag tag-time">Time: Moderate</span>
+                    <span class="meta-tag tag-motivation">Motivation: Rebuild confidence</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Persona 2 -->
+        <div class="persona-card persona-2">
+            <div class="card-header">
+                <div class="persona-number">Persona 2</div>
+                <div class="persona-type">The Refresher Seeker</div>
+                <div class="persona-name">
+                    <span class="avatar">👨‍💼</span>
+                    Marcus
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="role-info">
+                    <span class="role-badge">Professor of Business Analytics</span>
+                    <span class="role-badge">8 years at St. Thomas</span>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Background</div>
+                    <p class="background-text">Marcus went through STELAR's course design process four years ago and taught online successfully for two years. He's been focused on research lately and hasn't updated his online courses. He knows things have evolved and wants to modernize his approach without starting from scratch.</p>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Goals</div>
+                    <ul class="list goals-list">
+                        <li>Learn what's new in tools, policies, and pedagogy</li>
+                        <li>Update existing courses with fresh engagement strategies</li>
+                        <li>Improve efficiency in course maintenance and delivery</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Pain Points</div>
+                    <ul class="list pain-list">
+                        <li>Doesn't want to sit through basics he already knows</li>
+                        <li>Unsure which of his current practices are now outdated</li>
+                        <li>Limited time—needs targeted, efficient learning</li>
+                        <li>Wants to know "what's changed" without hunting for it</li>
+                    </ul>
+                </div>
+                
+                <div class="quote">
+                    "I know the fundamentals. Just tell me what's new and what I should stop doing."
+                </div>
+                
+                <div class="success-box">
+                    <div class="section-title">What Success Looks Like</div>
+                    <p>Marcus quickly identifies 3-5 meaningful updates to implement in his existing courses. He feels current and confident without having invested excessive time.</p>
+                </div>
+                
+                <div class="meta-tags">
+                    <span class="meta-tag tag-experience">Experience: High</span>
+                    <span class="meta-tag tag-time">Time: Low</span>
+                    <span class="meta-tag tag-motivation">Motivation: Stay current</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Persona 3 -->
+        <div class="persona-card persona-3">
+            <div class="card-header">
+                <div class="persona-number">Persona 3</div>
+                <div class="persona-type">The Course Converter</div>
+                <div class="persona-name">
+                    <span class="avatar">👩‍⚕️</span>
+                    Patricia
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="role-info">
+                    <span class="role-badge">Clinical Associate Professor, School of Nursing</span>
+                    <span class="role-badge">6 years at St. Thomas</span>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Background</div>
+                    <p class="background-text">Patricia is an excellent in-person instructor known for dynamic discussions and hands-on learning. Her department is moving her pharmacology course to a blended format to accommodate working nurses in the graduate program. She's committed but anxious about losing what makes her teaching effective.</p>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Goals</div>
+                    <ul class="list goals-list">
+                        <li>Translate her engaging in-person pedagogy to online/blended formats</li>
+                        <li>Maintain clinical rigor and student interaction</li>
+                        <li>Learn specific strategies for health sciences content online</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Pain Points</div>
+                    <ul class="list pain-list">
+                        <li>Fears online will feel "flat" compared to her classroom energy</li>
+                        <li>Unsure how to handle sensitive clinical discussions asynchronously</li>
+                        <li>Concerned about academic integrity with online assessments</li>
+                        <li>Needs discipline-specific examples, not generic advice</li>
+                    </ul>
+                </div>
+                
+                <div class="quote">
+                    "My students say my class is where concepts finally click. How do I make that happen through a screen?"
+                </div>
+                
+                <div class="success-box">
+                    <div class="section-title">What Success Looks Like</div>
+                    <p>Patricia designs a blended course that maintains high engagement and clinical relevance. She discovers new techniques that actually enhance certain learning objectives.</p>
+                </div>
+                
+                <div class="meta-tags">
+                    <span class="meta-tag tag-experience">Experience: High (in-person)</span>
+                    <span class="meta-tag tag-time">Time: Moderate</span>
+                    <span class="meta-tag tag-motivation">Motivation: Translate skills</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Persona 4 -->
+        <div class="persona-card persona-4">
+            <div class="card-header">
+                <div class="persona-number">Persona 4</div>
+                <div class="persona-type">The True Novice</div>
+                <div class="persona-name">
+                    <span class="avatar">🧑‍🎓</span>
+                    Jordan
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="role-info">
+                    <span class="role-badge">Newly hired Lecturer, English Department</span>
+                    <span class="role-badge">Starting fall semester</span>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Background</div>
+                    <p class="background-text">Jordan just completed a PhD and landed their first full-time teaching position. They've been a TA and taught a few face-to-face sections, but never designed a course from scratch and never used Canvas. They're eager to do well but overwhelmed by everything they need to learn simultaneously.</p>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Goals</div>
+                    <ul class="list goals-list">
+                        <li>Understand the basics of online/blended course design</li>
+                        <li>Learn Canvas and other institutional tools from the ground up</li>
+                        <li>Know what's expected and what "good" looks like at St. Thomas</li>
+                        <li>Build confidence before the first day of class</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Pain Points</div>
+                    <ul class="list pain-list">
+                        <li>Doesn't know what they don't know</li>
+                        <li>Overwhelmed by new job, new city, new systems all at once</li>
+                        <li>Afraid of making mistakes that affect students or their reputation</li>
+                        <li>Needs clear guidance, not open-ended exploration</li>
+                    </ul>
+                </div>
+                
+                <div class="quote">
+                    "Just tell me what I need to do and I'll do it. I don't want to mess this up."
+                </div>
+                
+                <div class="success-box">
+                    <div class="section-title">What Success Looks Like</div>
+                    <p>Jordan starts the semester with a functional, well-organized course and clear understanding of expectations. They know where to get help when questions arise.</p>
+                </div>
+                
+                <div class="meta-tags">
+                    <span class="meta-tag tag-experience">Experience: Low</span>
+                    <span class="meta-tag tag-time">Time: High</span>
+                    <span class="meta-tag tag-motivation">Motivation: Learn foundations</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Persona 5 -->
+        <div class="persona-card persona-5">
+            <div class="card-header">
+                <div class="persona-number">Persona 5</div>
+                <div class="persona-type">The Experienced Outsider</div>
+                <div class="persona-name">
+                    <span class="avatar">👨‍💻</span>
+                    Kenji
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="role-info">
+                    <span class="role-badge">Associate Professor of Computer Science</span>
+                    <span class="role-badge">Starting spring semester</span>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Background</div>
+                    <p class="background-text">Kenji comes from a large state university where he taught online for six years and helped develop their computer science online degree program. He's confident in his pedagogy and has strong opinions about what works. He chose St. Thomas for its mission and smaller community but needs to understand local systems and culture.</p>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Goals</div>
+                    <ul class="list goals-list">
+                        <li>Quickly learn St. Thomas-specific tools, standards, and processes</li>
+                        <li>Understand institutional expectations without redundant basic training</li>
+                        <li>Find where his expertise can contribute and where he needs to adapt</li>
+                        <li>Connect with colleagues and support resources</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Pain Points</div>
+                    <ul class="list pain-list">
+                        <li>Frustrated by training that assumes he's a beginner</li>
+                        <li>Needs to know "how we do it here" vs. general best practices</li>
+                        <li>May have workflows that don't align with institutional standards</li>
+                        <li>Wants efficiency—doesn't have patience for slow onboarding</li>
+                    </ul>
+                </div>
+                
+                <div class="quote">
+                    "I've designed dozens of online courses. What I need to know is how St. Thomas wants things done."
+                </div>
+                
+                <div class="success-box">
+                    <div class="section-title">What Success Looks Like</div>
+                    <p>Kenji efficiently onboards to institutional systems, understands where his expertise transfers and where adaptation is needed, and feels like a valued contributor rather than a student.</p>
+                </div>
+                
+                <div class="meta-tags">
+                    <span class="meta-tag tag-experience">Experience: High</span>
+                    <span class="meta-tag tag-time">Time: Low</span>
+                    <span class="meta-tag tag-motivation">Motivation: Institutional fit</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Persona 6 -->
+        <div class="persona-card persona-6">
+            <div class="card-header">
+                <div class="persona-number">Persona 6</div>
+                <div class="persona-type">The Assigned Adjunct</div>
+                <div class="persona-name">
+                    <span class="avatar">👩‍⚖️</span>
+                    Maria
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="role-info">
+                    <span class="role-badge">Adjunct Instructor, School of Social Work</span>
+                    <span class="role-badge">First semester</span>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Background</div>
+                    <p class="background-text">Maria is a practicing clinical social worker who was recruited to teach one online section of an introductory course. She has professional expertise but limited teaching experience and no experience with online instruction. She's excited but has very limited time outside her full-time job to prepare.</p>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Goals</div>
+                    <ul class="list goals-list">
+                        <li>Get up to speed quickly with minimal time investment</li>
+                        <li>Understand the essentials of teaching the pre-designed course</li>
+                        <li>Know the bare minimum expectations and where to get help</li>
+                        <li>Avoid embarrassing mistakes with students or technology</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Pain Points</div>
+                    <ul class="list pain-list">
+                        <li>Severely limited time—works full-time in her practice</li>
+                        <li>May be teaching a course designed by someone else</li>
+                        <li>Feels disconnected from the institution and colleagues</li>
+                        <li>Doesn't know what resources exist or how to access them</li>
+                    </ul>
+                </div>
+                
+                <div class="quote">
+                    "I have about 10 hours before the semester starts. What absolutely must I know?"
+                </div>
+                
+                <div class="success-box">
+                    <div class="section-title">What Success Looks Like</div>
+                    <p>Maria feels prepared enough to teach confidently on day one. She knows the critical must-dos, has a quick-reference guide, and knows exactly who to contact when issues arise.</p>
+                </div>
+                
+                <div class="meta-tags">
+                    <span class="meta-tag tag-experience">Experience: Low</span>
+                    <span class="meta-tag tag-time">Time: Very Low</span>
+                    <span class="meta-tag tag-motivation">Motivation: Survive & succeed</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Persona 7 -->
+        <div class="persona-card persona-7">
+            <div class="card-header">
+                <div class="persona-number">Persona 7</div>
+                <div class="persona-type">The Program Administrator</div>
+                <div class="persona-name">
+                    <span class="avatar">👨‍💼</span>
+                    Robert
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="role-info">
+                    <span class="role-badge">Director of MBA Program / Associate Professor</span>
+                    <span class="role-badge">15 years at St. Thomas</span>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Background</div>
+                    <p class="background-text">Robert is a seasoned faculty member who took on program director responsibilities three years ago. The MBA program is expanding its blended offerings, and he's now responsible for ensuring quality and consistency across 12 faculty members with wildly different skill levels and attitudes toward online teaching.</p>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Goals</div>
+                    <ul class="list goals-list">
+                        <li>Develop personal competency to model and evaluate good practice</li>
+                        <li>Learn how to train, support, and coach faculty at all levels</li>
+                        <li>Establish quality benchmarks for blended courses program-wide</li>
+                        <li>Know institutional resources to refer faculty appropriately</li>
+                        <li>Handle resistant or struggling faculty constructively</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Pain Points</div>
+                    <ul class="list pain-list">
+                        <li>Caught between administrative demands and faculty relationships</li>
+                        <li>Some faculty resist feedback or see online as "lesser"</li>
+                        <li>Lacks formal training in instructional coaching</li>
+                        <li>Needs to support everyone from novices to experts</li>
+                        <li>Limited budget and time for faculty development</li>
+                    </ul>
+                </div>
+                
+                <div class="quote">
+                    "I can't just tell faculty to 'make it better.' I need to show them how—or connect them with someone who can."
+                </div>
+                
+                <div class="success-box">
+                    <div class="section-title">What Success Looks Like</div>
+                    <p>Robert has frameworks and resources to support faculty across the experience spectrum. He can identify struggling courses early, provide constructive guidance, and knows when to escalate to STELAR or other support.</p>
+                </div>
+                
+                <div class="meta-tags">
+                    <span class="meta-tag tag-experience">Experience: Moderate</span>
+                    <span class="meta-tag tag-time">Time: Low</span>
+                    <span class="meta-tag tag-motivation">Motivation: Enable others</span>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <!-- Summary Table -->
+    <div class="summary-section">
+        <h2>📊 Persona Comparison at a Glance</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>Persona</th>
+                    <th>Archetype</th>
+                    <th>Experience</th>
+                    <th>Time Available</th>
+                    <th>Primary Motivation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Dana</strong></td>
+                    <td>COVID Pivot</td>
+                    <td>Moderate (unplanned)</td>
+                    <td>Moderate</td>
+                    <td>Rebuild confidence</td>
+                </tr>
+                <tr>
+                    <td><strong>Marcus</strong></td>
+                    <td>Refresher Seeker</td>
+                    <td>High</td>
+                    <td>Low</td>
+                    <td>Stay current</td>
+                </tr>
+                <tr>
+                    <td><strong>Patricia</strong></td>
+                    <td>Course Converter</td>
+                    <td>High (in-person)</td>
+                    <td>Moderate</td>
+                    <td>Translate skills</td>
+                </tr>
+                <tr>
+                    <td><strong>Jordan</strong></td>
+                    <td>True Novice</td>
+                    <td>Low</td>
+                    <td>High</td>
+                    <td>Learn foundations</td>
+                </tr>
+                <tr>
+                    <td><strong>Kenji</strong></td>
+                    <td>Experienced Outsider</td>
+                    <td>High</td>
+                    <td>Low</td>
+                    <td>Institutional fit</td>
+                </tr>
+                <tr>
+                    <td><strong>Maria</strong></td>
+                    <td>Assigned Adjunct</td>
+                    <td>Low</td>
+                    <td>Very Low</td>
+                    <td>Survive & succeed</td>
+                </tr>
+                <tr>
+                    <td><strong>Robert</strong></td>
+                    <td>Program Administrator</td>
+                    <td>Moderate</td>
+                    <td>Low</td>
+                    <td>Enable others</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <p style="text-align: center; color: rgba(255,255,255,0.7); margin-top: 40px; font-size: 0.9em;">
+        Blended Learning Training Program • Needs Analysis Personas • St. Thomas University
+    </p>
+    
+</body>
+</html>
