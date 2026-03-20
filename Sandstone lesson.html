@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MODULE_NUMBER: LESSON_TITLE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─── PALETTE ─────────────────────────────────────────────────────────── */
+    :root {
+      --sand:        #AEA28B;
+      --mist:        #B7BEC1;
+      --amber:       #BF8F36;
+      --brown:       #734002;
+      --dark:        #261501;
+      --cream:       #f7f3ec;
+      --cream-deep:  #ede5d4;
+      --pool-deep:   #1e2e36;
+      --pool-mid:    #2e3e46;
+      --text:        #3d2200;
+    }
+
+    /* ─── RESET & BASE ────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #ddd5c3;
+      font-family: 'Source Sans 3', system-ui, sans-serif;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .lesson-wrapper {
+      max-width: 860px;
+      margin: 2rem auto;
+      padding: 0 1rem 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+
+    h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      color: var(--brown);
+    }
+
+    /* ─── HEADER: limestone strata cap-rock ──────────────────────────────── */
+    .section-header {
+      background: repeating-linear-gradient(
+        180deg,
+        #3a2410 0px,  #3a2410 20px,
+        #1a0c00 20px, #1a0c00 22px,
+        #4a2d14 22px, #4a2d14 44px,
+        #261501 44px, #261501 46px,
+        #5c3a18 46px, #5c3a18 66px,
+        #1e0f00 66px, #1e0f00 68px,
+        #3a3028 68px, #3a3028 90px,
+        #261501 90px, #261501 92px
+      );
+      clip-path: polygon(0 0, 100% 0, 100% 78%, 95% 100%, 5% 100%, 0 78%);
+      padding: 1.75rem 2rem 3.5rem;
+      text-align: center;
+    }
+
+    .section-header h2 {
+      color: #f5efe4;
+      font-size: 1.65rem;
+      letter-spacing: 0.05em;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+      margin-bottom: 0.35rem;
+    }
+
+    .section-header .subtitle {
+      color: rgba(245,239,228,0.75);
+      font-size: 0.95em;
+      letter-spacing: 0.02em;
+    }
+
+    .shimmer {
+      height: 2px;
+      background: linear-gradient(90deg,
+        transparent,
+        var(--mist) 25%,
+        var(--sand) 55%,
+        var(--amber) 80%,
+        transparent);
+      opacity: 0.55;
+      border-radius: 1px;
+    }
+
+    /* ─── LEARNING OBJECTIVES: sheared overhang ──────────────────────────── */
+    .section-objectives {
+      background: linear-gradient(135deg, var(--cream) 0%, var(--cream-deep) 100%);
+      border-top:    5px solid var(--amber);
+      border-left:   6px solid var(--amber);
+      border-right:  1px solid var(--sand);
+      border-bottom: 1px solid var(--sand);
+      clip-path: polygon(0 0, calc(100% - 36px) 0, 100% 36px, 100% 100%, 0 100%);
+      padding: 1.25rem 2.5rem 1.25rem 1.5rem;
+    }
+
+    .section-objectives h3 { margin-bottom: 0.4rem; }
+
+    .section-objectives ul {
+      padding-left: 1.25rem;
+    }
+
+    .section-objectives li { margin-bottom: 0.2rem; }
+
+    /* ─── VIDEO: gorge trapezoid ──────────────────────────────────────────── */
+    .section-video {
+      background: linear-gradient(175deg,
+        var(--pool-deep) 0%,
+        var(--pool-mid)  35%,
+        #4a6670          75%,
+        #8aacb5          100%);
+      clip-path: polygon(5% 0, 95% 0, 100% 100%, 0 100%);
+      padding: 1.25rem 3rem 1.5rem;
+      text-align: center;
+    }
+
+    .section-video .video-title {
+      color: #e8f0f3;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.55);
+      margin: 0.75rem 0;
+    }
+
+    .video-embed {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      height: 0;
+    }
+
+    .video-embed iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 2px solid rgba(183,190,193,0.5);
+    }
+
+    /* ─── INTERACTIVE WRAPPER SHAPES ─────────────────────────────────────── */
+
+    /* Quick Check: river stone — opposite corners deeply rounded (tumbled) */
+    .shape-qc {
+      border-top:    3px solid var(--mist);
+      border-bottom: 3px solid var(--sand);
+      border-left:   1px solid rgba(183,190,193,0.4);
+      border-right:  1px solid rgba(174,162,139,0.4);
+      border-radius: 4px 48px 4px 48px;
+      background: linear-gradient(170deg,
+        rgba(183,190,193,0.13) 0%,
+        rgba(174,162,139,0.07) 100%);
+      padding: 1.5rem 1.75rem;
+    }
+
+    /* Flashcards: bottom-left hollow — pooling in a rock scoop */
+    .shape-fc {
+      border-top:    4px solid var(--amber);
+      border-left:   4px solid var(--sand);
+      border-right:  1px solid rgba(174,162,139,0.3);
+      border-bottom: 1px solid rgba(174,162,139,0.3);
+      border-radius: 0 4px 4px 56px;
+      background: linear-gradient(160deg,
+        rgba(191,143,54,0.09) 0%,
+        rgba(174,162,139,0.05) 100%);
+      padding: 1.5rem 1.75rem;
+    }
+
+    /* Match Items: bottom-right hollow — mirrored bank */
+    .shape-mi {
+      border-top:    4px solid var(--brown);
+      border-right:  4px solid var(--amber);
+      border-left:   1px solid rgba(115,64,2,0.3);
+      border-bottom: 1px solid rgba(115,64,2,0.3);
+      border-radius: 4px 0 56px 4px;
+      background: linear-gradient(200deg,
+        rgba(115,64,2,0.08) 0%,
+        rgba(191,143,54,0.04) 100%);
+      padding: 1.5rem 1.75rem;
+    }
+
+    /* What's Next: plunge pool — base worn smooth */
+    .section-next {
+      background: linear-gradient(135deg, var(--cream) 0%, var(--cream-deep) 100%);
+      border-top:    1px solid var(--sand);
+      border-right:  1px solid var(--sand);
+      border-bottom: 1px solid var(--sand);
+      border-left:   6px solid var(--brown);
+      border-radius: 4px 4px 56px 56px;
+      padding: 1.25rem 1.75rem 1.6rem;
+    }
+
+    /* ─── SHARED SECTION TITLE ────────────────────────────────────────────── */
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .section-title i { color: var(--amber); }
+
+    /* ─── QUICK CHECK ─────────────────────────────────────────────────────── */
+    .qc-question {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 1rem;
+    }
+
+    .qc-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .qc-option {
+      background: rgba(255,255,255,0.72);
+      border: 2px solid rgba(174,162,139,0.5);
+      border-radius: 6px 28px 6px 28px;
+      padding: 0.6rem 1.1rem;
+      text-align: left;
+      cursor: pointer;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text);
+      transition: background 0.18s, border-color 0.18s, transform 0.15s;
+    }
+
+    .qc-option:hover:not(:disabled) {
+      background: rgba(191,143,54,0.16);
+      border-color: var(--amber);
+      transform: translateX(5px);
+    }
+
+    .qc-option.is-correct {
+      background: rgba(70,130,70,0.14);
+      border-color: #4a8a4a;
+      color: #193d19;
+    }
+
+    .qc-option.is-wrong {
+      background: rgba(150,55,35,0.10);
+      border-color: #963723;
+      color: #5c1e0e;
+    }
+
+    .qc-option:disabled { cursor: default; }
+
+    .qc-feedback {
+      margin-top: 0.8rem;
+      padding: 0.6rem 1rem;
+      border-left: 4px solid;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.93rem;
+    }
+
+    .qc-feedback.is-correct {
+      background: rgba(70,130,70,0.10);
+      border-color: #4a8a4a;
+      color: #193d19;
+    }
+
+    .qc-feedback.is-wrong {
+      background: rgba(150,55,35,0.09);
+      border-color: #963723;
+      color: #5c1e0e;
+    }
+
+    .qc-reset {
+      margin-top: 0.8rem;
+      background: var(--brown);
+      color: var(--cream);
+      border: none;
+      border-radius: 4px 18px 4px 18px;
+      padding: 0.45rem 1.1rem;
+      cursor: pointer;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.88rem;
+      transition: background 0.2s;
+    }
+
+    .qc-reset:hover { background: var(--amber); }
+
+    /* ─── FLASHCARDS ──────────────────────────────────────────────────────── */
+    .fc-hint {
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--sand);
+      letter-spacing: 0.03em;
+      margin-bottom: 0.9rem;
+    }
+
+    .fc-viewport { perspective: 1000px; }
+
+    .fc-card {
+      cursor: pointer;
+      position: relative;
+      height: 150px;
+      margin-bottom: 1rem;
+    }
+
+    .fc-inner {
+      position: absolute;
+      inset: 0;
+      transform-style: preserve-3d;
+      transition: transform 0.5s ease;
+    }
+
+    .fc-card.flipped .fc-inner { transform: rotateY(180deg); }
+
+    .fc-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem 1.5rem;
+      border-radius: 10px 36px 10px 36px;
+      text-align: center;
+    }
+
+    .fc-front {
+      background: linear-gradient(135deg, var(--cream) 0%, #e4d9c2 100%);
+      border: 2px solid rgba(191,143,54,0.45);
+      color: var(--dark);
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    .fc-back {
+      background: linear-gradient(135deg, #d6cbb4 0%, var(--cream-deep) 100%);
+      border: 2px solid rgba(115,64,2,0.35);
+      color: var(--text);
+      font-size: 0.95rem;
+      transform: rotateY(180deg);
+    }
+
+    .fc-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .fc-btn {
+      background: rgba(191,143,54,0.12);
+      border: 2px solid var(--amber);
+      color: var(--brown);
+      border-radius: 4px 18px 4px 18px;
+      padding: 0.4rem 1rem;
+      cursor: pointer;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.88rem;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .fc-btn:hover:not(:disabled) { background: var(--amber); color: #fff; }
+    .fc-btn:disabled { opacity: 0.35; cursor: default; }
+
+    .fc-count {
+      min-width: 56px;
+      text-align: center;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--brown);
+    }
+
+    /* ─── MATCH ITEMS ─────────────────────────────────────────────────────── */
+    .match-instruction {
+      font-size: 0.9rem;
+      color: var(--brown);
+      margin-bottom: 1rem;
+    }
+
+    .match-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .match-tile {
+      background: rgba(255,255,255,0.72);
+      border: 2px solid rgba(174,162,139,0.5);
+      border-radius: 14px 4px 14px 4px;
+      padding: 0.55rem 0.95rem;
+      cursor: pointer;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text);
+      transition: background 0.18s, border-color 0.18s, box-shadow 0.18s;
+      user-select: none;
+    }
+
+    .match-tile:hover:not(:disabled):not(.matched) {
+      background: rgba(191,143,54,0.16);
+      border-color: var(--amber);
+    }
+
+    .match-tile.selected {
+      background: rgba(191,143,54,0.28);
+      border: 3px solid var(--amber);
+      box-shadow: 0 0 0 3px rgba(191,143,54,0.25);
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    .match-tile.matched {
+      background: rgba(70,130,70,0.14);
+      border-color: #5a9a5a;
+      color: #1a4222;
+      cursor: default;
+      opacity: 0.7;
+    }
+
+    .match-tile.wrong {
+      background: rgba(150,55,35,0.12);
+      border-color: #963723;
+      color: #5c1e0e;
+    }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%      { transform: translateX(-6px); }
+      40%      { transform: translateX(6px); }
+      60%      { transform: translateX(-4px); }
+      80%      { transform: translateX(4px); }
+    }
+
+    .match-tile.shake { animation: shake 0.35s ease; }
+
+    .match-status {
+      font-size: 0.88rem;
+      color: var(--brown);
+      font-style: italic;
+      min-height: 1.4em;
+    }
+
+    .match-complete {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.5rem 0.9rem;
+      background: rgba(70,130,70,0.12);
+      border: 2px solid #5a9a5a;
+      border-radius: 6px;
+      color: #1a4222;
+      font-weight: 600;
+      font-style: normal;
+      font-size: 0.9rem;
+    }
+
+    .match-reset {
+      display: inline-block;
+      margin-top: 0.75rem;
+      background: transparent;
+      border: 2px solid var(--brown);
+      color: var(--brown);
+      border-radius: 4px 18px 4px 18px;
+      padding: 0.38rem 1rem;
+      cursor: pointer;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.85rem;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .match-reset:hover { background: var(--brown); color: var(--cream); }
+
+    /* ─── UTILITY ─────────────────────────────────────────────────────────── */
+    .hidden { display: none !important; }
+
+    /* ─── RESPONSIVE ──────────────────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .section-video  { clip-path: none; padding: 1.25rem 1rem; }
+      .section-header { padding-bottom: 2.5rem; }
+      .shape-qc,
+      .shape-fc,
+      .shape-mi { padding: 1.1rem 1.1rem; }
+    }
+  </style>
+</head>
+
+<body>
+<main class="lesson-wrapper">
+
+  <!-- ══ HEADER: cap-rock limestone strata ══════════════════════════════════ -->
+  <header class="section-header">
+    <h2>MODULE_NUMBER: LESSON_TITLE</h2>
+    <p class="subtitle">COURSE_NAME &nbsp;|&nbsp; Estimated Time: TIME_ESTIMATE minutes</p>
+    <div class="shimmer" style="margin-top:1.25rem;"></div>
+  </header>
+
+  <!-- ══ LEARNING OBJECTIVES: sheared overhang ════════════════════════════ -->
+  <section class="section-objectives">
+    <h3>Learning Objectives</h3>
+    <p style="margin-bottom:0.5rem;">By the end of this lesson, you will be able to:</p>
+    <ul>
+      <li>OBJECTIVE_1</li>
+      <li>OBJECTIVE_2</li>
+      <li>OBJECTIVE_3</li>
+    </ul>
+  </section>
+
+  <!-- ══ VIDEO: gorge trapezoid ════════════════════════════════════════════ -->
+  <section class="section-video">
+    <div class="shimmer" style="margin-bottom:0.75rem;"></div>
+    <p class="video-title">VIDEO_TITLE</p>
+    <div class="video-embed">
+      <!-- Replace VIDEO_EMBED_URL with your YouTube/Panopto embed src -->
+      <iframe src="VIDEO_EMBED_URL"
+              loading="lazy"
+              allowfullscreen
+              allow="autoplay"
+              aria-label="Video Player"
+              title="VIDEO_TITLE"></iframe>
+    </div>
+    <p>&nbsp;</p>
+  </section>
+
+  <!-- ══ QUICK CHECK: river stone ══════════════════════════════════════════ -->
+  <section class="shape-qc" aria-label="Quick Check">
+    <h3 class="section-title">
+      <i class="fas fa-bolt" aria-hidden="true"></i> Quick Check
+    </h3>
+
+    <p class="qc-question">QUESTION_TEXT</p>
+
+    <div class="qc-options" role="group" aria-label="Answer choices">
+      <!-- Mark the correct answer with data-correct="true" -->
+      <button class="qc-option" data-correct="true">CORRECT_ANSWER_TEXT</button>
+      <button class="qc-option">WRONG_ANSWER_1_TEXT</button>
+      <button class="qc-option">WRONG_ANSWER_2_TEXT</button>
+    </div>
+
+    <!-- Feedback injected by JS — replace placeholder text below in the JS block -->
+    <div class="qc-feedback hidden" role="alert"></div>
+    <button class="qc-reset hidden" aria-label="Try the question again">
+      <i class="fas fa-undo" aria-hidden="true"></i> Try Again
+    </button>
+  </section>
+
+  <!-- ══ FLASHCARDS: rock-hollow bottom-left ═══════════════════════════════ -->
+  <section class="shape-fc" aria-label="Flashcards">
+    <h3 class="section-title">
+      <i class="far fa-sticky-note" aria-hidden="true"></i> Flashcards
+    </h3>
+    <p class="fc-hint">
+      <i class="fas fa-hand-pointer" aria-hidden="true"></i>
+      Click card to flip &nbsp;·&nbsp; Arrows to navigate
+    </p>
+
+    <div class="fc-viewport">
+      <div class="fc-card" role="button" tabindex="0" aria-label="Flashcard — click to flip">
+        <div class="fc-inner">
+          <div class="fc-face fc-front">Loading…</div>
+          <div class="fc-face fc-back">Loading…</div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="fc-nav" aria-label="Flashcard navigation">
+      <button class="fc-btn fc-prev" disabled aria-label="Previous card">
+        <i class="fas fa-chevron-left" aria-hidden="true"></i> Prev
+      </button>
+      <span class="fc-count" aria-live="polite">1 / 3</span>
+      <button class="fc-btn fc-next" aria-label="Next card">
+        Next <i class="fas fa-chevron-right" aria-hidden="true"></i>
+      </button>
+    </nav>
+  </section>
+
+  <!-- ══ MATCH ITEMS: mirrored bank bottom-right ═══════════════════════════ -->
+  <section class="shape-mi" aria-label="Match Items">
+    <h3 class="section-title">
+      <i class="fas fa-object-ungroup" aria-hidden="true"></i> Match Items
+    </h3>
+    <p class="match-instruction">Select a term, then its matching definition.</p>
+
+    <div class="match-grid" id="matchGrid" role="group" aria-label="Items to match"></div>
+    <div class="match-status" id="matchStatus" aria-live="polite">Select two items to match them.</div>
+    <button class="match-reset" id="matchReset">
+      <i class="fas fa-undo" aria-hidden="true"></i> Reset
+    </button>
+  </section>
+
+  <!-- ══ WHAT'S NEXT: plunge pool ══════════════════════════════════════════ -->
+  <section class="section-next">
+    <h3 style="margin-bottom:0.5rem;">What's Next</h3>
+    <p>SUMMARY_TEXT</p>
+    <p style="margin-top:0.6rem;">
+      Up next: <strong style="color:var(--brown);">NEXT_LESSON_TITLE</strong>
+    </p>
+  </section>
+
+</main>
+
+<script>
+  /* ══════════════════════════════════════════════════════════════════════════
+     QUICK CHECK
+     ── Edit: qcCorrectFeedback / qcWrongFeedback below
+  ══════════════════════════════════════════════════════════════════════════ */
+  const qcCorrectFeedback   = 'CORRECT_FEEDBACK_TEXT';
+  const qcIncorrectFeedback = 'INCORRECT_FEEDBACK_TEXT';
+
+  document.querySelectorAll('.shape-qc').forEach(qc => {
+    const opts     = qc.querySelectorAll('.qc-option');
+    const feedback = qc.querySelector('.qc-feedback');
+    const reset    = qc.querySelector('.qc-reset');
+
+    opts.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const correct = btn.dataset.correct === 'true';
+
+        opts.forEach(b => {
+          b.disabled = true;
+          b.classList.add(b.dataset.correct === 'true' ? 'is-correct' : 'is-wrong');
+        });
+
+        feedback.className = 'qc-feedback ' + (correct ? 'is-correct' : 'is-wrong');
+        feedback.innerHTML = correct
+          ? `<i class="fas fa-check" aria-hidden="true"></i> <strong>Correct!</strong> ${qcCorrectFeedback}`
+          : `<i class="fas fa-times" aria-hidden="true"></i> <strong>Not quite.</strong> ${qcIncorrectFeedback}`;
+        feedback.classList.remove('hidden');
+        reset.classList.remove('hidden');
+      });
+    });
+
+    reset.addEventListener('click', () => {
+      opts.forEach(b => { b.disabled = false; b.classList.remove('is-correct','is-wrong'); });
+      feedback.classList.add('hidden');
+      reset.classList.add('hidden');
+    });
+  });
+
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     FLASHCARDS
+     ── Edit: the fcData array below
+  ══════════════════════════════════════════════════════════════════════════ */
+  const fcData = [
+    { front: 'TERM_1', back: 'DEFINITION_1' },
+    { front: 'TERM_2', back: 'DEFINITION_2' },
+    { front: 'TERM_3', back: 'DEFINITION_3' },
+  ];
+
+  document.querySelectorAll('.shape-fc').forEach(wrapper => {
+    let idx = 0;
+    const card    = wrapper.querySelector('.fc-card');
+    const frontEl = wrapper.querySelector('.fc-front');
+    const backEl  = wrapper.querySelector('.fc-back');
+    const countEl = wrapper.querySelector('.fc-count');
+    const prevBtn = wrapper.querySelector('.fc-prev');
+    const nextBtn = wrapper.querySelector('.fc-next');
+
+    function render() {
+      const d = fcData[idx];
+      frontEl.textContent = d.front;
+      backEl.textContent  = d.back;
+      card.classList.remove('flipped');
+      countEl.textContent   = `${idx + 1} / ${fcData.length}`;
+      prevBtn.disabled      = idx === 0;
+      nextBtn.disabled      = idx === fcData.length - 1;
+      card.setAttribute('aria-label', `Card ${idx + 1} of ${fcData.length} — ${d.front}. Click to flip.`);
+    }
+
+    card.addEventListener('click', () => card.classList.toggle('flipped'));
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') card.classList.toggle('flipped'); });
+    prevBtn.addEventListener('click', () => { idx--; render(); });
+    nextBtn.addEventListener('click', () => { idx++; render(); });
+
+    render();
+  });
+
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     MATCH ITEMS
+     ── Edit: the matchPairs array below
+  ══════════════════════════════════════════════════════════════════════════ */
+  const matchPairs = [
+    { id: 0, term: 'MATCH_TERM_1', def: 'MATCH_DEF_1' },
+    { id: 1, term: 'MATCH_TERM_2', def: 'MATCH_DEF_2' },
+    { id: 2, term: 'MATCH_TERM_3', def: 'MATCH_DEF_3' },
+  ];
+
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function initMatch() {
+    const grid   = document.getElementById('matchGrid');
+    const status = document.getElementById('matchStatus');
+    grid.innerHTML = '';
+    let selected = null;
+    let matched  = 0;
+
+    const tiles = shuffle([
+      ...matchPairs.map(p => ({ pairId: p.id, label: p.term, type: 'term' })),
+      ...matchPairs.map(p => ({ pairId: p.id, label: p.def,  type: 'def'  })),
+    ]);
+
+    tiles.forEach(t => {
+      const btn = document.createElement('button');
+      btn.className          = 'match-tile';
+      btn.textContent        = t.label;
+      btn.dataset.pairId     = t.pairId;
+      btn.dataset.type       = t.type;
+
+      btn.addEventListener('click', () => {
+        if (btn.disabled || btn.classList.contains('matched')) return;
+
+        // Tap same tile again → deselect
+        if (selected === btn) {
+          btn.classList.remove('selected');
+          selected = null;
+          status.textContent = 'Select two items to match them.';
+          return;
+        }
+
+        if (!selected) {
+          btn.classList.add('selected');
+          selected = btn;
+          status.textContent = 'Now select the matching item.';
+          return;
+        }
+
+        const correctPair = selected.dataset.pairId === btn.dataset.pairId
+                         && selected.dataset.type   !== btn.dataset.type;
+
+        if (correctPair) {
+          [selected, btn].forEach(b => {
+            b.classList.remove('selected');
+            b.classList.add('matched');
+            b.disabled = true;
+          });
+          matched++;
+          selected = null;
+          status.innerHTML = matched === matchPairs.length
+            ? '<span class="match-complete"><i class="fas fa-check-circle" aria-hidden="true"></i> All matched! Great work.</span>'
+            : `${matched} of ${matchPairs.length} matched — keep going!`;
+        } else {
+          // Wrong pair — flash and shake
+          const a = selected, b = btn;
+          a.classList.remove('selected');
+          [a, b].forEach(el => el.classList.add('wrong', 'shake'));
+          setTimeout(() => [a, b].forEach(el => el.classList.remove('wrong', 'shake')), 400);
+          selected = null;
+          status.textContent = 'Not a match — try again.';
+        }
+      });
+
+      grid.appendChild(btn);
+    });
+
+    status.textContent = 'Select two items to match them.';
+  }
+
+  initMatch();
+  document.getElementById('matchReset').addEventListener('click', initMatch);
+</script>
+</body>
+</html>
